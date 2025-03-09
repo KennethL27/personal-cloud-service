@@ -1,0 +1,4 @@
+[project]
+name = "personal-cloud-service"
+version = "0.1"
+dependencies = ["fastapi", "uvicorn", "pytest", "httpx",]
