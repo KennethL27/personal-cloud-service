@@ -28,3 +28,13 @@ def get_external_drive_path():
 def get_folder_destination(file_type):
     if file_type == 'image/jpeg':
         return "/photos"
+    elif file_type == 'video/mp4' or file_type == 'video/quicktime':
+        return "/videos"
+    elif file_type == 'audio/mpeg':
+        return "/audio"
+    elif file_type == 'application/pdf':
+        return "/documents"
+    elif file_type == 'application/zip':
+        return "/zip"
+    else:
+        return "/others"
