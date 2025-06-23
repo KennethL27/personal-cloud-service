@@ -4,7 +4,7 @@ from pathlib import Path
 from src.services.api.file_path_helper import get_external_drive_path, get_folder_destination
 import mimetypes
 
-router = APIRouter(tags=["Steam File"])
+router = APIRouter(tags=["Stream File"])
 
 @router.get('/')
 async def stream(file_name: str):
