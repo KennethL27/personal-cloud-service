@@ -1,5 +1,5 @@
 from fastapi import APIRouter, File, UploadFile
-from src.services.api.file_upload import get_external_drive_path, get_folder_destination
+from src.services.api.file_path_helper import get_external_drive_path, get_folder_destination
 from typing import List
 import shutil
 import os

@@ -26,5 +26,15 @@ def get_external_drive_path():
     return None
 
 def get_folder_destination(file_type):
-    if file_type == 'image/jpeg':
+    if file_type in ['image/jpeg', 'jpeg', 'jpg']:
         return "/photos"
+    elif file_type in ['video/mp4', 'video/quicktime', 'mp4', 'mov']:
+        return "/videos"
+    elif file_type in ['audio/mpeg', 'mpeg']:
+        return "/audio"
+    elif file_type in ['application/pdf', 'pdf']:
+        return "/documents"
+    elif file_type in ['application/zip', 'zip']:
+        return "/zip"
+    else:
+        return "/others"
