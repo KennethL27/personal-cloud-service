@@ -1,5 +1,5 @@
 from src.services.api.file_path_helper import *
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 
 class TestFilePathHelper:
     def test_get_external_drive_path__darwin(self):
@@ -15,11 +15,15 @@ class TestFilePathHelper:
             assert get_external_drive_path() == "/media/pi/Drive2"
             
     def test_get_external_drive_path__windows(self):
+        mock_partition = Mock()
+        mock_partition.mountpoint = "D:\\"
+        mock_partition.opts = "removable"
         with patch("src.services.api.file_path_helper.platform.system", return_value="Windows"), \
-             patch("src.services.api.file_path_helper.psutil.disk_partitions", return_value=[patch(mountpoint="D:\\", opts="removable")]):
+             patch("src.services.api.file_path_helper.psutil.disk_partitions", return_value=[mock_partition]):
             assert get_external_drive_path() == "D:\\"
 
-        with patch("src.services.api.file_path_helper.psutil.disk_partitions", return_value=[]):
+        with patch("src.services.api.file_path_helper.platform.system", return_value="Windows"), \
+             patch("src.services.api.file_path_helper.psutil.disk_partitions", return_value=[]):
             assert get_external_drive_path() is None
             
     def test_get_external_drive_path__unsupported_os(self):
