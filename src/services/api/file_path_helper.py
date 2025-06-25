@@ -1,5 +1,9 @@
 import platform
 import os
+try:
+    import psutil
+except ImportError:
+    psutil = None
 
 def get_external_drive_path():
     system = platform.system()
@@ -16,9 +20,10 @@ def get_external_drive_path():
     if system in ["Darwin", "Linux"]:
         # Find mounted drives
         drives = [d for d in os.listdir(base_path) if os.path.isdir(os.path.join(base_path, d))]
-        return os.path.join(base_path, drives[1]) if drives else None
+        return os.path.join(base_path, drives[1]) if len(drives) > 1 else None
     else:  # Windows
-        import psutil
+        if psutil is None:
+            raise ImportError("psutil is required for Windows support")
         for partition in psutil.disk_partitions():
             if "removable" in partition.opts.lower():  # Detect USB drive
                 return partition.mountpoint
