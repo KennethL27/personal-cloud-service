@@ -92,7 +92,7 @@ export default function FileBrowser() {
 
   // Sort files
   const sortedFiles = browseData?.files ? [...browseData.files].sort((a, b) => {
-    let aValue: any, bValue: any;
+    let aValue: string | number, bValue: string | number;
     
     switch (sortBy) {
       case 'name':

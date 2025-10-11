@@ -4,6 +4,7 @@ class TestFileBrowse:
     def test_browse_all_files(self, test_client):
         with patch("src.api.file.browse.get_external_drive_path", return_value="/fake_drive/"), \
              patch("src.api.file.browse.os.path.exists", return_value=True), \
+             patch("src.api.file.browse.os.path.isdir", return_value=False), \
              patch("src.api.file.browse.os.listdir") as mock_listdir, \
              patch("src.api.file.browse.os.stat") as mock_stat, \
              patch("src.api.file.browse.mimetypes.guess_type", return_value=("image/jpeg", None)):
@@ -40,6 +41,7 @@ class TestFileBrowse:
     def test_browse_by_category(self, test_client):
         with patch("src.api.file.browse.get_external_drive_path", return_value="/fake_drive/"), \
              patch("src.api.file.browse.os.path.exists", return_value=True), \
+             patch("src.api.file.browse.os.path.isdir", return_value=False), \
              patch("src.api.file.browse.os.listdir", return_value=["photo1.jpg", "photo2.png"]), \
              patch("src.api.file.browse.os.stat") as mock_stat, \
              patch("src.api.file.browse.mimetypes.guess_type", return_value=("image/jpeg", None)):
@@ -113,6 +115,7 @@ class TestFileBrowse:
     def test_browse_filters_hidden_files(self, test_client):
         with patch("src.api.file.browse.get_external_drive_path", return_value="/fake_drive/"), \
              patch("src.api.file.browse.os.path.exists", return_value=True), \
+             patch("src.api.file.browse.os.path.isdir", return_value=False), \
              patch("src.api.file.browse.os.listdir", return_value=["photo1.jpg", "._photo1.jpg", ".hidden.txt", "normal.txt"]), \
              patch("src.api.file.browse.os.stat") as mock_stat, \
              patch("src.api.file.browse.mimetypes.guess_type", return_value=("text/plain", None)):
