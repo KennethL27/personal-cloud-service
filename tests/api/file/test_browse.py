@@ -109,3 +109,25 @@ class TestFileBrowse:
             data = response.json()
             assert data["total_count"] == 0
             assert data["files"] == []
+
+    def test_browse_filters_hidden_files(self, test_client):
+        with patch("src.api.file.browse.get_external_drive_path", return_value="/fake_drive/"), \
+             patch("src.api.file.browse.os.path.exists", return_value=True), \
+             patch("src.api.file.browse.os.listdir", return_value=["photo1.jpg", "._photo1.jpg", ".hidden.txt", "normal.txt"]), \
+             patch("src.api.file.browse.os.stat") as mock_stat, \
+             patch("src.api.file.browse.mimetypes.guess_type", return_value=("text/plain", None)):
+            
+            mock_stat.return_value = MagicMock(st_size=1024, st_mtime=1640995200)
+            
+            response = test_client.get("/file/browse/?category=others")
+            assert response.status_code == 200
+            
+            data = response.json()
+            assert data["total_count"] == 2  # Only photo1.jpg and normal.txt
+            
+            # Check that hidden files are filtered out
+            file_names = [file_info["name"] for file_info in data["files"]]
+            assert "photo1.jpg" in file_names
+            assert "normal.txt" in file_names
+            assert "._photo1.jpg" not in file_names
+            assert ".hidden.txt" not in file_names

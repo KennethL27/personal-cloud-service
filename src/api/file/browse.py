@@ -41,6 +41,14 @@ async def browse(category: Optional[str] = Query(None, description="Filter by fo
                 if os.path.isdir(file_path):
                     continue
                 
+                # Skip macOS resource fork files (._filename)
+                if filename.startswith('._'):
+                    continue
+                
+                # Skip hidden files (starting with .)
+                if filename.startswith('.') and not filename.startswith('._'):
+                    continue
+                
                 try:
                     # Get file metadata
                     stat = os.stat(file_path)
