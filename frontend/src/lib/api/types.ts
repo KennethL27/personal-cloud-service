@@ -33,3 +33,16 @@ export interface UploadFileRequest {
 export interface StreamFileRequest {
   fileName: string;
 }
+
+export interface FileMetadata {
+  name: string;
+  size: number;
+  type: string;
+  modified: string;
+  category: string;
+}
+
+export interface BrowseResponse {
+  files: FileMetadata[];
+  total_count: number;
+}
