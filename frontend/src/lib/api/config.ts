@@ -5,6 +5,7 @@ export const API_CONFIG = {
     health: '/health_check/',
     upload: '/file/upload/',
     stream: '/file/stream/',
+    browse: '/file/browse/',
   },
 } as const;
 

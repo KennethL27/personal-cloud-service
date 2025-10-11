@@ -1,4 +1,4 @@
-import { ApiConfig, ErrorResponse } from './types';
+import { ApiConfig, ErrorResponse, BrowseResponse } from './types';
 import { API_CONFIG, getApiUrl } from './config';
 
 class ApiClient {
@@ -115,6 +115,37 @@ class ApiClient {
         throw error;
       }
       throw new Error('An unexpected error occurred during file download');
+    }
+  }
+
+  // File Browse
+  async browseFiles(category?: string): Promise<BrowseResponse> {
+    const url = new URL(getApiUrl(API_CONFIG.endpoints.browse));
+    
+    if (category) {
+      url.searchParams.append('category', category);
+    }
+    
+    try {
+      const response = await fetch(url.toString(), {
+        method: 'GET',
+      });
+      
+      if (!response.ok) {
+        const errorData: ErrorResponse = await response.json().catch(() => ({
+          status: 'error',
+          message: `HTTP ${response.status}: ${response.statusText}`,
+        }));
+        
+        throw new Error(errorData.message || `HTTP ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error('An unexpected error occurred during file browsing');
     }
   }
 }
