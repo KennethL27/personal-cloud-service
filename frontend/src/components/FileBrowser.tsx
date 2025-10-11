@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useFileBrowse, useFileDownload, useFileStream } from '@/lib/api';
 import { FileMetadata } from '@/lib/api/types';
+import FileStreamDisplay from './FileStreamDisplay';
 
 // File type icons mapping
 const getFileIcon = (type: string) => {
@@ -49,7 +50,7 @@ export default function FileBrowser() {
   // API hooks
   const { data: browseData, loading: browseLoading, error: browseError, browseFiles } = useFileBrowse();
   const { downloadFile, loading: downloadLoading } = useFileDownload();
-  const { streamFile, loading: streamLoading } = useFileStream();
+  const { streamFile, loading: streamLoading, error: streamError, data: streamData } = useFileStream();
 
   // Load files on component mount and when category changes
   useEffect(() => {
@@ -180,6 +181,13 @@ export default function FileBrowser() {
           <p className="text-gray-300">No files found</p>
         </div>
       )}
+
+      {/* File Stream Display */}
+      <FileStreamDisplay 
+        streamData={streamData}
+        streamError={streamError}
+        streamLoading={streamLoading}
+      />
 
       {/* Files Display */}
       {!browseLoading && !browseError && browseData && browseData.total_count > 0 && (
