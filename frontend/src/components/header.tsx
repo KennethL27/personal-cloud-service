@@ -7,8 +7,6 @@ export default function Header() {
         <h1 className="text-xl font-bold">Personal Cloud Storage</h1>
         <ul className="flex gap-4">
           <li><Link href="/">Home</Link></li>
-          <li><Link href="/view">View</Link></li>
-          <li><Link href="/upload">Upload</Link></li>
           <li><Link href="/settings">Settings</Link></li>
         </ul>
       </nav>
