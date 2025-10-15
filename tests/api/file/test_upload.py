@@ -3,7 +3,7 @@ from tempfile import NamedTemporaryFile
 from unittest.mock import patch, MagicMock
 
 class TestFileUpload:
-    def test_file_upload(self, test_client):
+    def test_file_upload(self, test_client, bypass_auth):
         # Create a mock file object that can be used as a context manager
         mock_file_obj = MagicMock()
         mock_file_obj.__enter__ = MagicMock(return_value=mock_file_obj)

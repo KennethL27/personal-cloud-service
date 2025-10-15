@@ -5,7 +5,7 @@ def dummy_iter(content: bytes):
 
 
 class TestFileStream:
-    def test_stream_video_file(self, test_client):
+    def test_stream_video_file(self, test_client, bypass_auth):
         with patch("src.api.file.stream.get_external_drive_path", return_value="/fake_drive/"), \
              patch("src.api.file.stream.get_folder_destination", return_value="/videos"), \
              patch("src.api.file.stream.iterfile", return_value=dummy_iter(b"\x00\x00\x00\x20ftypisom")), \
@@ -16,7 +16,7 @@ class TestFileStream:
             assert response.headers["content-type"].startswith("video/")
             assert response.content == b"\x00\x00\x00\x20ftypisom"
 
-    def test_stream_photo_file(self, test_client):
+    def test_stream_photo_file(self, test_client, bypass_auth):
         with patch("src.api.file.stream.get_external_drive_path", return_value="/fake_drive/"), \
              patch("src.api.file.stream.get_folder_destination", return_value="/photos"), \
              patch("src.api.file.stream.iterfile", return_value=dummy_iter(b"\xff\xd8\xff\xe0")), \
@@ -27,7 +27,7 @@ class TestFileStream:
             assert response.headers["content-type"].startswith("image/")
             assert response.content == b"\xff\xd8\xff\xe0"
 
-    def test_file_not_found(self, test_client):
+    def test_file_not_found(self, test_client, bypass_auth):
         with patch("src.api.file.stream.get_external_drive_path", return_value="/fake_drive/"), \
              patch("src.api.file.stream.get_folder_destination", return_value="/photos"), \
              patch("pathlib.Path.exists", return_value=False):
