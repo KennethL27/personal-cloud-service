@@ -4,10 +4,11 @@ from typing import List
 import shutil
 import os
 
-router = APIRouter(tags=["File Upload"])
+router = APIRouter(tags=["File"])
 
 @router.post('/')
 async def upload(files: List[UploadFile] = File(...)):
+    """Upload your file to the drive"""
     uploaded_filenames = []
 
     for file in files:
