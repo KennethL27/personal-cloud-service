@@ -2,6 +2,7 @@ import pytest
 from fastapi.testclient import TestClient
 from src.main import app
 from unittest.mock import patch
+import os
 
 @pytest.fixture(scope="module")
 def test_client():
@@ -50,3 +51,15 @@ def bypass_auth():
     
     # Clean up
     app.dependency_overrides.clear()
+
+@pytest.fixture(scope="session", autouse=True)
+def set_test_env_vars():
+    os.environ["JWT_SECRET_KEY"] = "test-secret-key-for-testing-only"
+    os.environ["JWT_ALGORITHM"] = "HS256"
+    os.environ["ACCESS_TOKEN_EXPIRE_MINUTES"] = "30"
+    
+    yield
+    
+    os.environ.pop("JWT_SECRET_KEY", None)
+    os.environ.pop("JWT_ALGORITHM", None)
+    os.environ.pop("ACCESS_TOKEN_EXPIRE_MINUTES", None)
