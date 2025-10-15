@@ -1,4 +1,4 @@
-import { ApiConfig, ErrorResponse, BrowseResponse } from './types';
+import { ApiConfig, ErrorResponse, BrowseResponse, LoginRequest, LoginResponse, LogoutResponse, VerifyResponse } from './types';
 import { API_CONFIG, getApiUrl } from './config';
 
 class ApiClient {
@@ -21,7 +21,7 @@ class ApiClient {
         ...options.headers,
       },
       mode: 'cors', // Explicitly set CORS mode
-      credentials: 'same-origin', // Handle credentials properly
+      credentials: 'include', // Include cookies for authentication
       ...options,
     };
 
@@ -71,6 +71,7 @@ class ApiClient {
           const response = await fetch(url, {
       method: 'POST',
       body: formData,
+      credentials: 'include',
     });
 
       if (!response.ok) {
@@ -98,6 +99,7 @@ class ApiClient {
     try {
       const response = await fetch(url, {
         method: 'GET',
+        credentials: 'include',
       });
       
       if (!response.ok) {
@@ -129,6 +131,7 @@ class ApiClient {
     try {
       const response = await fetch(url.toString(), {
         method: 'GET',
+        credentials: 'include',
       });
       
       if (!response.ok) {
@@ -147,6 +150,26 @@ class ApiClient {
       }
       throw new Error('An unexpected error occurred during file browsing');
     }
+  }
+
+  // Authentication Methods
+  async login(request: LoginRequest): Promise<LoginResponse> {
+    return this.request<LoginResponse>(API_CONFIG.endpoints.login, {
+      method: 'POST',
+      body: JSON.stringify(request),
+    });
+  }
+
+  async logout(): Promise<LogoutResponse> {
+    return this.request<LogoutResponse>(API_CONFIG.endpoints.logout, {
+      method: 'POST',
+    });
+  }
+
+  async verifyAuth(): Promise<VerifyResponse> {
+    return this.request<VerifyResponse>(API_CONFIG.endpoints.verify, {
+      method: 'GET',
+    });
   }
 }
 
