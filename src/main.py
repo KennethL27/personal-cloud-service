@@ -30,7 +30,7 @@ def include_routers():
             relative_path = convert_module_path_to_url_prefix(module_info, package)
             prefix = f"/{relative_path}"
 
-            if relative_path not in ["auth/login", "auth/logout", "auth/verify", "health_check"]:
+            if relative_path not in ["auth/login", "auth/logout", "health_check"]:
                 app.include_router(module.router, prefix=prefix, dependencies=[Depends(get_current_user)])
             else:
                 app.include_router(module.router, prefix=prefix)

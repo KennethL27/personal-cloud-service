@@ -34,8 +34,10 @@ def verify_google_token(token: str) -> Optional[Dict[str, Any]]:
         return user_info
         
     except ValueError as e:
-        # Invalid token
+        print(f"ValueError [verify_google_token] invalid token: {e}")
+
         return None
     except Exception as e:
-        # Other errors
+        print(f"Exception [verify_google_token]: {e}")
+
         return None

@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from src.services.auth.google_helper import verify_google_token
 from src.services.auth.jwt_helper import create_access_token
 from src.services.auth.allow_email_helper import is_email_allowed
+import os
 
 router = APIRouter(tags=["Authentication"])
 
@@ -52,7 +53,7 @@ async def login(request: LoginRequest, response: Response):
         key="access_token",
         value=access_token,
         httponly=True,
-        secure=False,  # Set to False for localhost development
+        secure=not (os.getenv("ENV", "development").lower() in ["development", "dev", "local", "test"]),
         samesite="lax",
         max_age=3600  # 1 hour
     )

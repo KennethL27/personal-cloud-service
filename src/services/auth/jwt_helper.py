@@ -9,8 +9,20 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 def create_access_token(data: Dict[str, Any], expires_delta: Optional[timedelta] = None) -> str:
     """Create a JWT access token."""
     SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+    if not SECRET_KEY:
+        raise ValueError("JWT_SECRET_KEY environment variable is not set")
+
     ALGORITHM = os.getenv("JWT_ALGORITHM")
-    ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
+    if not ALGORITHM:
+        raise ValueError("JWT_ALGORITHM environment variable is not set")
+
+    access_token_expire_minutes_str = os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")
+    if not access_token_expire_minutes_str:
+        raise ValueError("ACCESS_TOKEN_EXPIRE_MINUTES environment variable is not set")
+    try:
+        ACCESS_TOKEN_EXPIRE_MINUTES = int(access_token_expire_minutes_str)
+    except (TypeError, ValueError):
+        raise ValueError("ACCESS_TOKEN_EXPIRE_MINUTES environment variable must be an integer")
     to_encode = data.copy()
     
     if expires_delta:
@@ -25,7 +37,11 @@ def create_access_token(data: Dict[str, Any], expires_delta: Optional[timedelta]
 def verify_token(token: str) -> Optional[Dict[str, Any]]:
     """Verify and decode a JWT token."""
     SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+    if not SECRET_KEY:
+        raise ValueError("JWT_SECRET_KEY environment variable is not set")
     ALGORITHM = os.getenv("JWT_ALGORITHM")
+    if not ALGORITHM:
+        raise ValueError("JWT_ALGORITHM environment variable is not set")
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         return payload

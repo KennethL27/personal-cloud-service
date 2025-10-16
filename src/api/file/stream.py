@@ -8,7 +8,7 @@ router = APIRouter(tags=["File"])
 
 @router.get('/')
 async def stream(file_name: str):
-    """Stream any file that exist on the drive"""
+    """Stream a file that exists on the drive"""
     file_path = Path(f"{get_external_drive_path()}{get_folder_destination(file_name.split('.')[-1])}/{file_name}")
     
     if not file_path.exists():
