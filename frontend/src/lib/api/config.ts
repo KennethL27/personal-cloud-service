@@ -6,6 +6,9 @@ export const API_CONFIG = {
     upload: '/file/upload/',
     stream: '/file/stream/',
     browse: '/file/browse/',
+    login: '/auth/login/',
+    logout: '/auth/logout/',
+    verify: '/auth/verify/',
   },
 } as const;
 

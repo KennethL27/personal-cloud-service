@@ -1,7 +1,7 @@
 from unittest.mock import patch, MagicMock
 
 class TestFileBrowse:
-    def test_browse_all_files(self, test_client):
+    def test_browse_all_files(self, test_client, bypass_auth):
         with patch("src.api.file.browse.get_external_drive_path", return_value="/fake_drive/"), \
              patch("src.api.file.browse.os.path.exists", return_value=True), \
              patch("src.api.file.browse.os.path.isdir", return_value=False), \
@@ -38,7 +38,7 @@ class TestFileBrowse:
                 assert "modified" in file_info
                 assert "category" in file_info
 
-    def test_browse_by_category(self, test_client):
+    def test_browse_by_category(self, test_client, bypass_auth):
         with patch("src.api.file.browse.get_external_drive_path", return_value="/fake_drive/"), \
              patch("src.api.file.browse.os.path.exists", return_value=True), \
              patch("src.api.file.browse.os.path.isdir", return_value=False), \
@@ -58,7 +58,7 @@ class TestFileBrowse:
             for file_info in data["files"]:
                 assert file_info["category"] == "photos"
 
-    def test_browse_invalid_category(self, test_client):
+    def test_browse_invalid_category(self, test_client, bypass_auth):
         with patch("src.api.file.browse.get_external_drive_path", return_value="/fake_drive/"):
             response = test_client.get("/file/browse/?category=invalid")
             assert response.status_code == 200
@@ -67,7 +67,7 @@ class TestFileBrowse:
             assert data["total_count"] == 0
             assert data["files"] == []
 
-    def test_browse_empty_directory(self, test_client):
+    def test_browse_empty_directory(self, test_client, bypass_auth):
         with patch("src.api.file.browse.get_external_drive_path", return_value="/fake_drive/"), \
              patch("src.api.file.browse.os.path.exists", return_value=True), \
              patch("src.api.file.browse.os.listdir", return_value=[]):
@@ -79,7 +79,7 @@ class TestFileBrowse:
             assert data["total_count"] == 0
             assert data["files"] == []
 
-    def test_browse_nonexistent_drive(self, test_client):
+    def test_browse_nonexistent_drive(self, test_client, bypass_auth):
         with patch("src.api.file.browse.get_external_drive_path", return_value=None):
             response = test_client.get("/file/browse/")
             assert response.status_code == 200
@@ -88,7 +88,7 @@ class TestFileBrowse:
             assert data["total_count"] == 0
             assert data["files"] == []
 
-    def test_browse_nonexistent_folder(self, test_client):
+    def test_browse_nonexistent_folder(self, test_client, bypass_auth):
         with patch("src.api.file.browse.get_external_drive_path", return_value="/fake_drive/"), \
              patch("src.api.file.browse.os.path.exists", return_value=False):
             
@@ -99,7 +99,7 @@ class TestFileBrowse:
             assert data["total_count"] == 0
             assert data["files"] == []
 
-    def test_browse_file_access_error(self, test_client):
+    def test_browse_file_access_error(self, test_client, bypass_auth):
         with patch("src.api.file.browse.get_external_drive_path", return_value="/fake_drive/"), \
              patch("src.api.file.browse.os.path.exists", return_value=True), \
              patch("src.api.file.browse.os.listdir", return_value=["photo1.jpg"]), \
@@ -112,7 +112,7 @@ class TestFileBrowse:
             assert data["total_count"] == 0
             assert data["files"] == []
 
-    def test_browse_filters_hidden_files(self, test_client):
+    def test_browse_filters_hidden_files(self, test_client, bypass_auth):
         with patch("src.api.file.browse.get_external_drive_path", return_value="/fake_drive/"), \
              patch("src.api.file.browse.os.path.exists", return_value=True), \
              patch("src.api.file.browse.os.path.isdir", return_value=False), \

@@ -5,10 +5,11 @@ import os
 import mimetypes
 from datetime import datetime
 
-router = APIRouter(tags=["File Browse"])
+router = APIRouter(tags=["File"])
 
 @router.get('/')
 async def browse(category: Optional[str] = Query(None, description="Filter by folder type (photos, videos, documents, audio, zip, others)")):
+    """Browse files on the external drive, optionally filtered by category."""
     base_path = get_external_drive_path()
     if not base_path:
         return {"files": [], "total_count": 0}

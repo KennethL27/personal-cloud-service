@@ -46,3 +46,36 @@ export interface BrowseResponse {
   files: FileMetadata[];
   total_count: number;
 }
+
+// Authentication Types
+export interface User {
+  email: string;
+  name?: string;
+  picture?: string;
+  sub?: string;
+}
+
+export interface LoginRequest {
+  token: string;
+}
+
+export interface LoginResponse {
+  message: string;
+  user: User;
+}
+
+export interface LogoutResponse {
+  message: string;
+}
+
+export interface VerifyResponse {
+  authenticated: boolean;
+  user?: User;
+}
+
+export interface AuthState {
+  user: User | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  error: string | null;
+}
