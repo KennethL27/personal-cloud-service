@@ -5,10 +5,12 @@ import pkgutil
 import importlib
 from src.api.auth.dependencies import get_current_user
 from dotenv import load_dotenv
+from src.database.initializer import DatabaseInitializer
 
 load_dotenv()
 
 app = FastAPI(title = "Personal Cloud Service")
+DatabaseInitializer()
 
 # Add CORS middleware
 app.add_middleware(
