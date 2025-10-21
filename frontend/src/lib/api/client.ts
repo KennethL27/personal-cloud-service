@@ -1,4 +1,4 @@
-import { ApiConfig, ErrorResponse, BrowseResponse, LoginRequest, LoginResponse, LogoutResponse, VerifyResponse } from './types';
+import { ApiConfig, ErrorResponse, BrowseResponse, LoginRequest, LoginResponse, LogoutResponse, VerifyResponse, UserSettingsResponse, UserSettings, MountedDrivesResponse } from './types';
 import { API_CONFIG, getApiUrl } from './config';
 
 class ApiClient {
@@ -168,6 +168,26 @@ class ApiClient {
 
   async verifyAuth(): Promise<VerifyResponse> {
     return this.request<VerifyResponse>(API_CONFIG.endpoints.verify, {
+      method: 'GET',
+    });
+  }
+
+  // User Settings Methods
+  async getUserSettings(): Promise<UserSettingsResponse> {
+    return this.request<UserSettingsResponse>('/file/user_settings/', {
+      method: 'GET',
+    });
+  }
+
+  async updateUserSettings(settings: UserSettings): Promise<{ status: string }> {
+    return this.request<{ status: string }>('/file/user_settings/', {
+      method: 'PUT',
+      body: JSON.stringify(settings),
+    });
+  }
+
+  async getMountedDrives(): Promise<MountedDrivesResponse> {
+    return this.request<MountedDrivesResponse>('/file/list_mounted_drives/', {
       method: 'GET',
     });
   }

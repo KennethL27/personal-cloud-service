@@ -9,6 +9,8 @@ export const API_CONFIG = {
     login: '/auth/login/',
     logout: '/auth/logout/',
     verify: '/auth/verify/',
+    userSettings: '/file/user_settings/',
+    mountedDrives: '/file/list_mounted_drives/',
   },
 } as const;
 
