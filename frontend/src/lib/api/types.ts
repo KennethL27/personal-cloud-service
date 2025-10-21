@@ -79,3 +79,28 @@ export interface AuthState {
   isLoading: boolean;
   error: string | null;
 }
+
+export interface DriveInfo {
+  device: string;
+  mountpoint: string;
+  fstype: string;
+  opts: string;
+  total: string;
+  used: string;
+  free: string;
+  percent_used: string;
+}
+
+export interface UserSettings {
+  hard_drive_path_selection: string;
+}
+
+export interface UserSettingsResponse {
+  id: number;
+  user_id: number;
+  hard_drive_path_selection: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export type MountedDrivesResponse = DriveInfo[];
