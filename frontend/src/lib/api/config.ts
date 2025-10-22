@@ -11,6 +11,7 @@ export const API_CONFIG = {
     verify: '/auth/verify/',
     userSettings: '/file/user_settings/',
     mountedDrives: '/file/list_mounted_drives/',
+    listFolderItems: '/file/list_folder_items/',
   },
 } as const;
 

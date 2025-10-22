@@ -104,3 +104,16 @@ export interface UserSettingsResponse {
 }
 
 export type MountedDrivesResponse = DriveInfo[];
+
+export interface FolderItem {
+  name: string;
+  full_path: string;
+  relative_path: string;
+  type: "folder" | "file";
+  size: string | null;
+  modified: string;
+}
+
+export interface ListFolderResponse {
+  items: FolderItem[];
+}
