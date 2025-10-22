@@ -1,4 +1,4 @@
-import { ApiConfig, ErrorResponse, BrowseResponse, LoginRequest, LoginResponse, LogoutResponse, VerifyResponse, UserSettingsResponse, UserSettings, MountedDrivesResponse } from './types';
+import { ApiConfig, ErrorResponse, BrowseResponse, LoginRequest, LoginResponse, LogoutResponse, VerifyResponse, UserSettingsResponse, UserSettings, MountedDrivesResponse, FolderItem } from './types';
 import { API_CONFIG, getApiUrl } from './config';
 
 class ApiClient {
@@ -190,6 +190,39 @@ class ApiClient {
     return this.request<MountedDrivesResponse>('/file/list_mounted_drives/', {
       method: 'GET',
     });
+  }
+
+  // List Folder Items
+  async listFolderItems(path: string = ""): Promise<FolderItem[]> {
+    const params = new URLSearchParams();
+    if (path) {
+      params.append('path', path);
+    }
+    
+    const url = `${getApiUrl(API_CONFIG.endpoints.listFolderItems)}?${params.toString()}`;
+    
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        credentials: 'include',
+      });
+      
+      if (!response.ok) {
+        const errorData: ErrorResponse = await response.json().catch(() => ({
+          status: 'error',
+          message: `HTTP ${response.status}: ${response.statusText}`,
+        }));
+        
+        throw new Error(errorData.message || `HTTP ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error('An unexpected error occurred while listing folder items');
+    }
   }
 }
 

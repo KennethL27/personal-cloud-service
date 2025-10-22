@@ -75,13 +75,13 @@ export default function FileStreamDisplay({ streamData, streamError, streamLoadi
       <h3 className="text-lg font-medium mb-2 text-gray-200">File: {streamData.name}</h3>
       <div className="bg-gray-700 p-4 rounded-md overflow-auto">
         {/* Display different file types appropriately */}
-        {streamData.type.startsWith('image/') ? (
+        {(streamData.name.endsWith('jpg') || streamData.name.endsWith('jpeg') || streamData.name.endsWith('png')) ? (
           <img 
             src={streamData.url} 
             alt={streamData.name}
             className="max-w-full h-auto mx-auto"
           />
-        ) : streamData.type.startsWith('video/') ? (
+        ) : (streamData.name.endsWith('mp4')) ? (
           <video 
             src={streamData.url} 
             controls 
@@ -89,7 +89,7 @@ export default function FileStreamDisplay({ streamData, streamError, streamLoadi
           >
             Your browser does not support the video tag.
           </video>
-        ) : streamData.type.startsWith('audio/') ? (
+        ) : (streamData.name.endsWith('mp3')) ? (
           <audio 
             src={streamData.url} 
             controls 
@@ -97,13 +97,13 @@ export default function FileStreamDisplay({ streamData, streamError, streamLoadi
           >
             Your browser does not support the audio tag.
           </audio>
-        ) : streamData.type === 'application/pdf' ? (
+        ) : (streamData.name.endsWith('pdf') || streamData.name.endsWith('doc')) ? (
           <iframe 
             src={streamData.url} 
             className="w-full h-96 border-0"
             title={streamData.name}
           />
-        ) : streamData.type.startsWith('text/') || streamData.type === 'application/json' ? (
+        ) : (streamData.name.endsWith('txt') || streamData.name.endsWith('json')) ? (
           <pre className="text-gray-200 whitespace-pre-wrap break-words">
             {/* For text files, we need to read the blob content */}
             <FileContentDisplay blob={streamData.blob} />
