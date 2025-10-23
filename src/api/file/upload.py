@@ -1,21 +1,23 @@
-from fastapi import APIRouter, File, UploadFile
-from src.services.api.file_path_helper import get_external_drive_path, get_folder_destination
+from fastapi import APIRouter, File, UploadFile, Form
 from typing import List
 import shutil
-import os
+from pathlib import Path
 
 router = APIRouter(tags=["File"])
 
 @router.post('/')
-async def upload(files: List[UploadFile] = File(...)):
-    """Upload your file to the drive"""
+async def upload(
+    file_path_location: str = Form(...),
+    files: List[UploadFile] = File(...)
+    ):
+    """Upload your file to the drive given a path"""
     uploaded_filenames = []
+    print('kl1')
+    print(file_path_location)
 
     for file in files:
-        UPLOAD_DIR = get_external_drive_path() + get_folder_destination(file.content_type)
-        os.makedirs(UPLOAD_DIR, exist_ok=True)
-
-        file_location = os.path.join(UPLOAD_DIR, file.filename)
+        file_location = Path(file_path_location) / file.filename
+        print(file_location)
         with open(file_location, "wb") as buffer:
             try:
                 shutil.copyfileobj(file.file, buffer)
