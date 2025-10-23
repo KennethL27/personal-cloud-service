@@ -59,11 +59,13 @@ class ApiClient {
   }
 
   // File Upload
-  async uploadFiles(files: File[]) {
+  async uploadFiles(files: File[], currentFilePath : string) {
     const formData = new FormData();
     files.forEach((file) => {
       formData.append('files', file);
     });
+
+    formData.append('file_path_location', currentFilePath);
 
     const url = getApiUrl(API_CONFIG.endpoints.upload);
     

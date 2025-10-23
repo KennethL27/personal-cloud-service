@@ -12,12 +12,9 @@ async def upload(
     ):
     """Upload your file to the drive given a path"""
     uploaded_filenames = []
-    print('kl1')
-    print(file_path_location)
 
     for file in files:
         file_location = Path(file_path_location) / file.filename
-        print(file_location)
         with open(file_location, "wb") as buffer:
             try:
                 shutil.copyfileobj(file.file, buffer)

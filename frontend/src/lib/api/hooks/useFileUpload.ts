@@ -7,13 +7,13 @@ export const useFileUpload = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const uploadFiles = async (files: File[]) => {
+  const uploadFiles = async (files: File[], currentFilePath: string = "") => {
     try {
       setLoading(true);
       setError(null);
       setData(null);
       
-      const response = await apiClient.uploadFiles(files);
+      const response = await apiClient.uploadFiles(files, currentFilePath);
       setData(response);
       return response;
     } catch (err) {
