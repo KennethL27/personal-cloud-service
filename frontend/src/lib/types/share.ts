@@ -1,4 +1,4 @@
-// types/share.ts
+// frontend/src/lib/types/share.ts
 
 export interface ShareFormData {
     name: string;

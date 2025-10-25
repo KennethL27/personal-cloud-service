@@ -45,7 +45,7 @@ export function ShareModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-gray-500 rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
         <ModalHeader showSuccess={showSuccess} onClose={handleClose} />
         

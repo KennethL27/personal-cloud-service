@@ -65,8 +65,6 @@ def update_user(parameters):
     with get_connection() as conn:
         cursor = conn.cursor()
 
-        parameters["updated_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
-
         cursor.execute("""
                 UPDATE users
                 SET email = :email, name = :name, is_admin = :is_admin, is_guest = :is_guest

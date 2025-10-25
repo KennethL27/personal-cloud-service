@@ -228,8 +228,8 @@ class ApiClient {
   }
 
   // Share Method
-  async share(shareData: { name: string; email: string; hard_drive_path_selection: string }): Promise<{ status: string }> {
-    return this.request<{ status: string }>(API_CONFIG.endpoints.share, {
+  async share(shareData: ShareFormRequest): Promise<ShareFormResponse> {
+    return this.request<ShareFormResponse>(API_CONFIG.endpoints.share, {
       method: 'PUT',
       body: JSON.stringify(shareData),
     });
