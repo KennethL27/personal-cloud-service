@@ -117,3 +117,14 @@ export interface FolderItem {
 export interface ListFolderResponse {
   items: FolderItem[];
 }
+
+// Share Types
+export interface ShareFormRequest {
+  name: string;
+  email: string;
+  hard_drive_path_selection: string;
+}
+
+export interface ShareFormResponse {
+  status: string;
+}
