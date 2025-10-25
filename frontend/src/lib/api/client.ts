@@ -1,4 +1,4 @@
-import { ApiConfig, ErrorResponse, BrowseResponse, LoginRequest, LoginResponse, LogoutResponse, VerifyResponse, UserSettingsResponse, UserSettings, MountedDrivesResponse, FolderItem } from './types';
+import { ApiConfig, ErrorResponse, BrowseResponse, LoginRequest, LoginResponse, LogoutResponse, VerifyResponse, UserSettingsResponse, UserSettings, MountedDrivesResponse, FolderItem, ShareFormRequest, ShareFormResponse } from './types';
 import { API_CONFIG, getApiUrl } from './config';
 
 class ApiClient {
@@ -225,6 +225,14 @@ class ApiClient {
       }
       throw new Error('An unexpected error occurred while listing folder items');
     }
+  }
+
+  // Share Method
+  async share(shareData: { name: string; email: string; hard_drive_path_selection: string }): Promise<{ status: string }> {
+    return this.request<{ status: string }>(API_CONFIG.endpoints.share, {
+      method: 'PUT',
+      body: JSON.stringify(shareData),
+    });
   }
 }
 

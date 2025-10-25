@@ -14,3 +14,4 @@ export { useFileDownload } from './hooks/useFileDownload';
 export { useFileStream } from './hooks/useFileStream';
 export { useFileBrowse } from './hooks/useFileBrowse';
 export { useApiState } from './hooks/useApiState';
+export { useShare } from './hooks/useShare';
