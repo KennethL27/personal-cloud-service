@@ -1,4 +1,4 @@
-import { ApiConfig, ErrorResponse, BrowseResponse, LoginRequest, LoginResponse, LogoutResponse, VerifyResponse, UserSettingsResponse, UserSettings, MountedDrivesResponse, FolderItem, ShareFormRequest, ShareFormResponse } from './types';
+import { ApiConfig, ErrorResponse, BrowseResponse, LoginRequest, LoginResponse, LogoutResponse, VerifyResponse, UserSettingsResponse, UserSettings, MountedDrivesResponse, FolderItem, ShareFormRequest, ShareFormResponse, AdminCheckResponse } from './types';
 import { API_CONFIG, getApiUrl } from './config';
 
 class ApiClient {
@@ -232,6 +232,12 @@ class ApiClient {
     return this.request<ShareFormResponse>(API_CONFIG.endpoints.share, {
       method: 'PUT',
       body: JSON.stringify(shareData),
+    });
+  }
+
+  async adminCheck(): Promise<AdminCheckResponse> {
+    return this.request<AdminCheckResponse>(API_CONFIG.endpoints.adminCheck, {
+      method: 'GET',
     });
   }
 }
