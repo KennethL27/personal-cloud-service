@@ -70,18 +70,20 @@ export default function FileStreamDisplay({ streamData, streamError, streamLoadi
     return null;
   }
 
+  const lowerFileName = streamData.name.toLowerCase();
+
   return (
     <div className="bg-gray-500 rounded-lg shadow p-6">
       <h3 className="text-lg font-medium mb-2 text-gray-200">File: {streamData.name}</h3>
       <div className="bg-gray-700 p-4 rounded-md overflow-auto">
         {/* Display different file types appropriately */}
-        {(streamData.name.endsWith('jpg') || streamData.name.endsWith('jpeg') || streamData.name.endsWith('png')) ? (
+        {(lowerFileName.endsWith('jpg') || lowerFileName.endsWith('jpeg') || lowerFileName.endsWith('png')) ? (
           <img 
             src={streamData.url} 
             alt={streamData.name}
             className="max-w-full h-auto mx-auto"
           />
-        ) : (streamData.name.endsWith('mp4')) ? (
+        ) : (lowerFileName.endsWith('mp4') || lowerFileName.endsWith('mov')) ? (
           <video 
             src={streamData.url} 
             controls 
@@ -89,7 +91,7 @@ export default function FileStreamDisplay({ streamData, streamError, streamLoadi
           >
             Your browser does not support the video tag.
           </video>
-        ) : (streamData.name.endsWith('mp3')) ? (
+        ) : (lowerFileName.endsWith('mp3')) ? (
           <audio 
             src={streamData.url} 
             controls 
@@ -97,13 +99,13 @@ export default function FileStreamDisplay({ streamData, streamError, streamLoadi
           >
             Your browser does not support the audio tag.
           </audio>
-        ) : (streamData.name.endsWith('pdf') || streamData.name.endsWith('doc')) ? (
+        ) : (lowerFileName.endsWith('pdf') || lowerFileName.endsWith('doc')) ? (
           <iframe 
             src={streamData.url} 
             className="w-full h-96 border-0"
             title={streamData.name}
           />
-        ) : (streamData.name.endsWith('txt') || streamData.name.endsWith('json')) ? (
+        ) : (lowerFileName.endsWith('txt') || lowerFileName.endsWith('json')) ? (
           <pre className="text-gray-200 whitespace-pre-wrap break-words">
             {/* For text files, we need to read the blob content */}
             <FileContentDisplay blob={streamData.blob} />
