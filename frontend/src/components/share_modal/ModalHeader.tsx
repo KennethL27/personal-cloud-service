@@ -13,7 +13,7 @@ export function ModalHeader({ showSuccess, onClose }: ModalHeaderProps) {
       </h2>
       <button
         onClick={onClose}
-        className="text-gray-300 hover:text-white text-2xl leading-none"
+        className="text-gray-300 hover:text-white text-2xl leading-none cursor-pointer"
       >
         ×
       </button>
