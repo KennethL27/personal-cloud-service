@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ShareModal } from '@/components/share_modal/ShareModal';
 import { useShare } from '@/lib/api/hooks/useShare';
+import { useAdminCheck} from '@/lib/api/hooks/useAdminCheck';
 
 interface BrowserHeaderProps {
   currentPath: string;
@@ -17,6 +18,7 @@ export function BrowserHeader({
 }: BrowserHeaderProps) {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const { share, loading: shareLoading, error: shareError, reset: resetShare } = useShare();
+  const { adminCheck, loading: adminCheckLoading, error: adminCheckError, data: adminCheckData } = useAdminCheck();
 
   const handleShare = async (data: { name: string; email: string; hard_drive_path_selection: string }) => {
     await share(data);
@@ -27,6 +29,11 @@ export function BrowserHeader({
     setIsShareModalOpen(false);
     resetShare();
   };
+
+  React.useEffect(() => {
+    adminCheck();
+  }, []);
+  const isAdmin = !adminCheckLoading && !adminCheckError && adminCheckData?.is_admin;
 
   return (
     <>
@@ -49,12 +56,14 @@ export function BrowserHeader({
             </div>
           </div>
           
-          <button
-            onClick={() => setIsShareModalOpen(true)}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors flex items-center gap-2"
-          >
-            <span>Share</span>
-          </button>
+          {isAdmin && (
+            <button
+              onClick={() => setIsShareModalOpen(true)}
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors flex items-center gap-2 cursor-pointer"
+            >
+              <span>Share</span>
+            </button>
+          )}
         </div>
       </div>
 

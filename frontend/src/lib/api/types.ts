@@ -128,3 +128,7 @@ export interface ShareFormRequest {
 export interface ShareFormResponse {
   status: string;
 }
+
+export interface AdminCheckResponse {
+  is_admin: boolean
+}

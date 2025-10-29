@@ -13,6 +13,7 @@ export const API_CONFIG = {
     mountedDrives: '/file/list_mounted_drives/',
     listFolderItems: '/file/list_folder_items/',
     share: '/permissions/share/',
+    adminCheck: '/permissions/admin_check/',
   },
 } as const;
 
