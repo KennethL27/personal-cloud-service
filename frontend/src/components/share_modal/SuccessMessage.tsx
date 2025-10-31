@@ -11,7 +11,7 @@ export function SuccessMessage({ pathDisplay, recipientName, onClose }: SuccessM
     <div className="text-center py-8">
       <div className="text-green-400 text-4xl mb-4">✓</div>
       <p className="text-white mb-6">
-        Successfully shared <span className="font-semibold">"{pathDisplay}"</span> with {recipientName}
+        Successfully shared <span className="font-semibold">&quot;{pathDisplay}&quot;</span> with {recipientName}
       </p>
       <button
         onClick={onClose}

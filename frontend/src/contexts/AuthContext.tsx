@@ -2,10 +2,10 @@
 
 import React, { createContext, useContext, ReactNode } from 'react';
 import { useAuth } from '@/lib/api/hooks/useAuth';
-import { AuthState } from '@/lib/api/types';
+import { AuthState, LoginResponse } from '@/lib/api/types';
 
 interface AuthContextType extends AuthState {
-  login: (googleToken: string) => Promise<any>;
+  login: (googleToken: string) => Promise<LoginResponse>;
   logout: () => Promise<void>;
   verifyAuth: () => Promise<void>;
   clearError: () => void;

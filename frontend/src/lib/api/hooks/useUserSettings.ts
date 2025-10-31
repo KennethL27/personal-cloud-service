@@ -1,6 +1,6 @@
 import { useApiState } from './useApiState';
 import { apiClient } from '../client';
-import { UserSettings, UserSettingsResponse, MountedDrivesResponse, DriveInfo } from '../types';
+import { UserSettings, UserSettingsResponse, MountedDrivesResponse } from '../types';
 
 export const useUserSettings = () => {
   const settingsState = useApiState<UserSettingsResponse>();

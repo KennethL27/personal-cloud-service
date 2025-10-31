@@ -19,7 +19,7 @@ class DriveInfo(BaseModel):
 async def list_mounted_drives():
     """List all drives attached to the server"""
     drives_info = []
-    partitions = psutil.disk_partitions(all=False)  
+    partitions = psutil.disk_partitions(all=True)  
 
     for partition in partitions:
         if partition.fstype == 'apfs':

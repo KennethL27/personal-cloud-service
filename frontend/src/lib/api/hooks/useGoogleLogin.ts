@@ -5,8 +5,20 @@ declare global {
     google: {
       accounts: {
         id: {
-          initialize: (config: any) => void;
-          renderButton: (element: HTMLElement, config: any) => void;
+          initialize: (config: {
+            client_id: string;
+            callback: (response: { credential?: string }) => void;
+            auto_select?: boolean;
+            cancel_on_tap_outside?: boolean;
+          }) => void;
+          renderButton: (element: HTMLElement, config: {
+            theme?: string;
+            size?: string;
+            width?: string | number;
+            text?: string;
+            shape?: string;
+            [key: string]: unknown;
+          }) => void;
           prompt: () => void;
         };
       };
@@ -25,7 +37,7 @@ export const useGoogleLogin = ({ onSuccess, onError, clientId }: UseGoogleLoginP
     if (typeof window !== 'undefined' && window.google) {
       window.google.accounts.id.initialize({
         client_id: clientId,
-        callback: (response: any) => {
+        callback: (response: { credential?: string }) => {
           if (response.credential) {
             onSuccess(response.credential);
           } else {
