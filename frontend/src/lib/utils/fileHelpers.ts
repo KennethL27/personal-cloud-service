@@ -2,11 +2,12 @@
 
 export const getFileIcon = (type: string, isFolder: boolean): string => {
     if (isFolder) return '📁';
-    if (type.endsWith('jpeg') || type.endsWith('jpg') || type.endsWith('png')) return '🖼️';
-    if (type.endsWith('mp4')) return '🎥';
-    if (type.endsWith('mp3')) return '🎵';
-    if (type.endsWith('doc') || type.endsWith('pdf')) return '📝';
-    if (type.endsWith('zip')) return '📦';
+    const lowerType = type.toLowerCase();
+    if (lowerType.endsWith('jpeg') || lowerType.endsWith('jpg') || lowerType.endsWith('png')) return '🖼️';
+    if (lowerType.endsWith('mp4')) return '🎥';
+    if (lowerType.endsWith('mp3')) return '🎵';
+    if (lowerType.endsWith('doc') || lowerType.endsWith('pdf')) return '📝';
+    if (lowerType.endsWith('zip')) return '📦';
     return '📄';
   };
   
