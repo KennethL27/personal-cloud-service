@@ -52,7 +52,8 @@ export function useShareForm({ pathDisplay, isOpen, onShare }: UseShareFormProps
       await onShare(formData);
       setShowSuccess(true);
       return true;
-    } catch (err) {
+    } catch (error) {
+      console.log(error);
       return false;
     }
   };

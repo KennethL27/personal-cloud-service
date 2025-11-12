@@ -13,6 +13,7 @@ function FileContentDisplay({ blob }: { blob: Blob }) {
         const text = await blob.text();
         setContent(text);
       } catch (error) {
+        console.log(error);
         setContent('Error reading file content');
       } finally {
         setLoading(false);

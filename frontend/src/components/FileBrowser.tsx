@@ -20,7 +20,7 @@ export default function FileBrowserNew() {
   const { settings, fetchSettings } = useUserSettings();
   const { currentPath, navigateToFolder, navigateBack, getPathDisplay } = usePathNavigation();
   const { streamFile, data: streamData, loading: streamLoading, error: streamError } = useFileStream();
-  const { uploadFiles, loading: uploadLoading, error: uploadError, data: uploadData } = useFileUpload();
+  const { uploadFiles, loading: uploadLoading, error: uploadError } = useFileUpload();
 
   const [selectedFile, setSelectedFile] = useState<FolderItem | null>(null);
   const [banner, setBanner] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
@@ -61,6 +61,7 @@ export default function FileBrowserNew() {
       });
     } catch (error) {
       // Show error banner
+      console.log(error);
       setBanner({
         message: uploadError || 'Failed to upload files',
         type: 'error'

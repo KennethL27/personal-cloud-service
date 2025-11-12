@@ -80,6 +80,7 @@ export const useAuth = () => {
         });
       }
     } catch (error) {
+      console.log(error);
       // If verification fails, user is not authenticated
       setAuthState({
         user: null,
