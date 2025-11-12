@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: ./src/Dockerfile.backend
+    container_name: fastapi-backend-local
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app  # Mount source for hot reload
+      - ./app.db:/app/app.db  # SQLite database
+      - /Volumes/DISK_IMG:/external-storage:rw # drive access
+    environment:
+      - DATABASE_URL=sqlite:///app.db
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    container_name: nextjs-frontend-local
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app  # Mount source for hot reload
+      - /app/node_modules  # Prevent node_modules from being overwritten
+      - /app/.next  # Prevent .next from being overwritten
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost/api
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-proxy-local
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.local.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - backend
+    restart: unless-stopped
